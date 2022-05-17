@@ -6,6 +6,7 @@ import 'package:news_app_mayank/services/material_app_service_service.dart';
 import 'package:news_app_mayank/services/material_theme_service_service.dart';
 import 'package:news_app_mayank/services/dio_client_service.dart';
 import 'package:news_app_mayank/services/network_api_service.dart';
+import 'package:news_app_mayank/services/database_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -18,6 +19,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<MaterialThemeServiceService>(returnNullOnMissingStub: true),
   MockSpec<DioClientService>(returnNullOnMissingStub: true),
   MockSpec<NetworkApiService>(returnNullOnMissingStub: true),
+MockSpec<DatabaseService>(returnNullOnMissingStub: true),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -28,6 +30,7 @@ void registerServices() {
   getAndRegisterMaterialThemeServiceService();
   getAndRegisterDioClientService();
   getAndRegisterNetworkApiServiceService();
+getAndRegisterDatabaseService();
 // @stacked-mock-register
 }
 
@@ -107,6 +110,12 @@ MockNetworkApiService getAndRegisterNetworkApiServiceService() {
   final service = MockNetworkApiService();
   locator.registerSingleton<NetworkApiService>(service);
   return service;
+}
+MockDatabaseService getAndRegisterDatabaseService() { 
+_removeRegistrationIfExists<DatabaseService>(); 
+final service = MockDatabaseService(); 
+locator.registerSingleton<DatabaseService>(service); 
+return service; 
 }
 // @stacked-mock-create
 

@@ -11,8 +11,9 @@ import 'package:stacked_services/stacked_services.dart';
 
 import 'app/app.router.dart';
 
-void main() {
-  setupLocator();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupLocator();
   setupDialogUi();
   setupBottomSheetUi();
   setupSnackbarUi();

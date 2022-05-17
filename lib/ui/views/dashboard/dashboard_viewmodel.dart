@@ -4,6 +4,7 @@ import 'package:news_app_mayank/enums/bottom_sheet_type.dart';
 import 'package:news_app_mayank/enums/news_list_type.dart';
 import 'package:news_app_mayank/services/material_theme_service_service.dart';
 import 'package:news_app_mayank/ui/common/app_strings.dart';
+import 'package:news_app_mayank/ui/views/my_feed/my_feed_view.dart';
 import 'package:news_app_mayank/ui/views/news_list/news_list_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -66,9 +67,8 @@ class DashboardViewModel extends ReactiveViewModel {
           newsListType: NewsListType.everything,
         );
       default:
-        return const NewsListView(
+        return const MyFeedView(
           key: Key('2'),
-          newsListType: NewsListType.mySavedSources,
         );
     }
   }

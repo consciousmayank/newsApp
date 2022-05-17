@@ -1,12 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:test_ground/app/app.locator.dart';
+import 'package:news_app_mayank/app/app.locator.dart';
 
 import '../helpers/test_helpers.dart';
 
 void main() {
-  group('NewsListViewModel Tests -', () {
+  group('DatabaseServiceTest -', () {
     setUp(() => registerServices());
     tearDown(() => locator.reset());
   });
 }
-

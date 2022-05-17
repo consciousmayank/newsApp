@@ -1,4 +1,5 @@
 import 'package:news_app_mayank/app/app.locator.dart';
+import 'package:news_app_mayank/services/database_service.dart';
 import 'package:news_app_mayank/services/network_api_service.dart';
 import 'package:stacked_services/stacked_services.dart';
 
