@@ -18,7 +18,9 @@ class AppWebViewModel extends BaseViewModel with BaseViewModelMixin {
       message: 'No Back history. Press Ok to Exit.',
       mainButtonTitle: 'Ok',
       onMainButtonTapped: () {
+        //Dismiss the snackbar
         navigationService.back();
+        //Pop one page from the stack
         navigationService.popRepeated(1);
       },
     );

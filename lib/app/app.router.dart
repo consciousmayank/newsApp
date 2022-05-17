@@ -11,24 +11,22 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
 import '../data_classes/new_articles.dart';
-import '../ui/views/all_news/all_news_view.dart';
+import '../enums/news_list_type.dart';
 import '../ui/views/app_web/app_web_view.dart';
 import '../ui/views/dashboard/dashboard_view.dart';
+import '../ui/views/news_list/news_list_view.dart';
 import '../ui/views/startup/startup_view.dart';
-import '../ui/views/top_headlines/top_headlines_view.dart';
 
 class Routes {
   static const String startupView = '/startup-view';
   static const String dashBoardView = '/dash-board-view';
-  static const String topHeadlinesView = '/top-headlines-view';
-  static const String allNewsView = '/all-news-view';
   static const String appWebView = '/app-web-view';
+  static const String newsListView = '/news-list-view';
   static const all = <String>{
     startupView,
     dashBoardView,
-    topHeadlinesView,
-    allNewsView,
     appWebView,
+    newsListView,
   };
 }
 
@@ -38,9 +36,8 @@ class StackedRouter extends RouterBase {
   final _routes = <RouteDef>[
     RouteDef(Routes.startupView, page: StartupView),
     RouteDef(Routes.dashBoardView, page: DashBoardView),
-    RouteDef(Routes.topHeadlinesView, page: TopHeadlinesView),
-    RouteDef(Routes.allNewsView, page: AllNewsView),
     RouteDef(Routes.appWebView, page: AppWebView),
+    RouteDef(Routes.newsListView, page: NewsListView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -57,24 +54,6 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
-    TopHeadlinesView: (data) {
-      var args = data.getArgs<TopHeadlinesViewArguments>(
-        orElse: () => TopHeadlinesViewArguments(),
-      );
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => TopHeadlinesView(key: args.key),
-        settings: data,
-      );
-    },
-    AllNewsView: (data) {
-      var args = data.getArgs<AllNewsViewArguments>(
-        orElse: () => AllNewsViewArguments(),
-      );
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => AllNewsView(key: args.key),
-        settings: data,
-      );
-    },
     AppWebView: (data) {
       var args = data.getArgs<AppWebViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
@@ -86,24 +65,22 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
+    NewsListView: (data) {
+      var args = data.getArgs<NewsListViewArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => NewsListView(
+          key: args.key,
+          newsListType: args.newsListType,
+        ),
+        settings: data,
+      );
+    },
   };
 }
 
 /// ************************************************************************
 /// Arguments holder classes
 /// *************************************************************************
-
-/// TopHeadlinesView arguments holder class
-class TopHeadlinesViewArguments {
-  final Key? key;
-  TopHeadlinesViewArguments({this.key});
-}
-
-/// AllNewsView arguments holder class
-class AllNewsViewArguments {
-  final Key? key;
-  AllNewsViewArguments({this.key});
-}
 
 /// AppWebView arguments holder class
 class AppWebViewArguments {
@@ -112,4 +89,11 @@ class AppWebViewArguments {
   final Source? source;
   AppWebViewArguments(
       {this.key, required this.urlToLoad, required this.source});
+}
+
+/// NewsListView arguments holder class
+class NewsListViewArguments {
+  final Key? key;
+  final NewsListType newsListType;
+  NewsListViewArguments({this.key, required this.newsListType});
 }

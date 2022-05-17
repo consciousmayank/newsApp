@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app_mayank/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 
 class MaterialThemeServiceService with ReactiveServiceMixin {
@@ -34,9 +35,18 @@ class MaterialThemeServiceService with ReactiveServiceMixin {
 
   ThemeData updateThemes(int colorIndex, bool useMaterial3, bool useLightMode) {
     return ThemeData(
-        colorSchemeSeed: colorOptions[_colorSelected.value],
-        useMaterial3: true,
-        brightness: useLightMode ? Brightness.light : Brightness.dark);
+            colorSchemeSeed: colorOptions[_colorSelected.value],
+            useMaterial3: true,
+            brightness: useLightMode ? Brightness.light : Brightness.dark)
+        .copyWith(
+            tabBarTheme: TabBarTheme(
+      labelColor: Colors.black,
+      unselectedLabelColor: useLightMode ? Colors.white : Colors.black,
+      indicator: BoxDecoration(
+        borderRadius: defaultBorderRadius,
+        color: colorOptions[_colorSelected.value],
+      ),
+    ));
   }
 
   void handleBrightnessChange() {

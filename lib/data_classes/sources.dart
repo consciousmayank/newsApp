@@ -92,6 +92,15 @@ class Source {
         language: json["language"],
         country: json["country"],
       );
+  factory Source.fromMapDB(Map<String, dynamic> json) => Source(
+        id: json["sourceId"],
+        name: json["name"],
+        description: json["description"],
+        url: json["url"],
+        category: json["category"],
+        language: json["language"],
+        country: json["country"],
+      );
 
   Map<String, dynamic> toMap() => {
         "id": id,
@@ -101,5 +110,15 @@ class Source {
         "category": category,
         "language": language,
         "country": country,
+      };
+
+  Map<String, Object?> toMapDb() => {
+        "sourceId": id ?? '',
+        "name": name ?? '',
+        "description": description ?? '',
+        "url": url ?? '',
+        "category": category ?? '',
+        "language": language ?? '',
+        "country": country ?? '',
       };
 }

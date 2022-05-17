@@ -11,6 +11,7 @@ import 'package:news_app_mayank/data_classes/new_articles.dart' as _i3;
 import 'package:news_app_mayank/enums/category.dart' as _i13;
 import 'package:news_app_mayank/enums/search_in.dart' as _i12;
 import 'package:news_app_mayank/enums/sort_by.dart' as _i11;
+import 'package:news_app_mayank/services/database_service.dart' as _i14;
 import 'package:news_app_mayank/services/dio_client_service.dart' as _i9;
 import 'package:news_app_mayank/services/material_app_service_service.dart'
     as _i7;
@@ -541,8 +542,7 @@ class MockNetworkApiService extends _i1.Mock implements _i10.NetworkApiService {
           String? query,
           List<String>? sources = const [],
           _i11.SortBy? sortBy = _i11.SortBy.publishedAt,
-          List<_i12.SearchIn>? searchIn = const [],
-          _i13.Category? category = _i13.Category.all}) =>
+          List<_i12.SearchIn>? searchIn = const []}) =>
       (super.noSuchMethod(
               Invocation.method(#getEverything, [], {
                 #page: page,
@@ -550,8 +550,7 @@ class MockNetworkApiService extends _i1.Mock implements _i10.NetworkApiService {
                 #query: query,
                 #sources: sources,
                 #sortBy: sortBy,
-                #searchIn: searchIn,
-                #category: category
+                #searchIn: searchIn
               }),
               returnValue:
                   Future<_i3.NewsArticles>.value(_FakeNewsArticles_1()))
@@ -574,4 +573,19 @@ class MockNetworkApiService extends _i1.Mock implements _i10.NetworkApiService {
               returnValue:
                   Future<_i3.NewsArticles>.value(_FakeNewsArticles_1()))
           as _i5.Future<_i3.NewsArticles>);
+}
+
+/// A class which mocks [DatabaseService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDatabaseService extends _i1.Mock implements _i14.DatabaseService {
+  @override
+  _i5.Future<int?> insertArticle(_i3.Article? singleArticle) =>
+      (super.noSuchMethod(Invocation.method(#insertArticle, [singleArticle]),
+          returnValue: Future<int?>.value()) as _i5.Future<int?>);
+  @override
+  _i5.Future<List<_i3.Article>> getSavedArticles() =>
+      (super.noSuchMethod(Invocation.method(#getSavedArticles, []),
+              returnValue: Future<List<_i3.Article>>.value(<_i3.Article>[]))
+          as _i5.Future<List<_i3.Article>>);
 }

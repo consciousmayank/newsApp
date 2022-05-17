@@ -72,7 +72,7 @@ class NetworkApiService implements AbstractNetworkApiService {
       newsArticles = NewsArticles.fromMap(response.data);
     } on DioError catch (e) {
       _snackbarService.showCustomSnackBar(
-        message: e.message,
+        message: e.response?.data['message'],
         title: 'Error',
         variant: SnackbarType.error,
       );
@@ -117,7 +117,7 @@ class NetworkApiService implements AbstractNetworkApiService {
       newsArticles = NewsArticles.fromMap(response.data);
     } on DioError catch (e) {
       _snackbarService.showCustomSnackBar(
-        message: e.toString(),
+        message: e.response?.data['message'],
         title: 'Error',
         variant: SnackbarType.error,
       );

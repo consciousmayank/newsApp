@@ -124,6 +124,17 @@ class Article {
         content: json["content"],
       );
 
+  factory Article.fromMapDb(Map<String, dynamic> json) => Article(
+        source: Source(id: json["source"], name: 'From Db'),
+        author: json["author"],
+        title: json["title"],
+        description: json["description"],
+        url: json["url"],
+        urlToImage: json["urlToImage"],
+        publishedAt: DateTime.parse(json["publishedAt"]),
+        content: json["content"],
+      );
+
   Map<String, dynamic> toMap() => {
         "source": source != null ? source!.toMap() : [],
         "author": author,
@@ -134,24 +145,39 @@ class Article {
         "publishedAt": publishedAt,
         "content": content,
       };
+
+  Map<String, dynamic> toMapDb() => {
+        "source": source != null ? source!.id : '',
+        "author": author ?? '',
+        "title": title ?? '',
+        "description": description ?? '',
+        "url": url ?? '',
+        "urlToImage": urlToImage ?? '',
+        "publishedAt": publishedAt?.toIso8601String() ?? '',
+        "content": content ?? '',
+      };
 }
 
 class Source {
   Source({
     this.id,
     this.name,
+    this.isSaved = false,
   });
 
   final String? id;
   final String? name;
+  final bool isSaved;
 
   Source copyWith({
     String? id,
     String? name,
+    bool? isSaved,
   }) =>
       Source(
         id: id ?? this.id,
         name: name ?? this.name,
+        isSaved: isSaved ?? this.isSaved,
       );
 
   factory Source.fromJson(String str) => Source.fromMap(json.decode(str));
