@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_mayank/app/app.locator.dart';
 import 'package:news_app_mayank/enums/bottom_sheet_type.dart';
+import 'package:news_app_mayank/enums/news_list_type.dart';
 import 'package:news_app_mayank/services/material_theme_service_service.dart';
 import 'package:news_app_mayank/ui/common/app_strings.dart';
-import 'package:news_app_mayank/ui/views/all_news/all_news_view.dart';
-import 'package:news_app_mayank/ui/views/top_headlines/top_headlines_view.dart';
+import 'package:news_app_mayank/ui/views/news_list/news_list_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -56,15 +56,19 @@ class DashboardViewModel extends ReactiveViewModel {
   Widget getViewForIndex() {
     switch (_selectedIndex) {
       case 0:
-        return TopHeadlinesView();
+        return const NewsListView(
+          key: Key('0'),
+          newsListType: NewsListType.topHeadlines,
+        );
       case 1:
-        return AllNewsView();
+        return const NewsListView(
+          key: Key('1'),
+          newsListType: NewsListType.everything,
+        );
       default:
-        return Container(
-          color: Colors.yellow,
-          child: Center(
-            child: Text("No view for index: $_selectedIndex"),
-          ),
+        return const NewsListView(
+          key: Key('2'),
+          newsListType: NewsListType.mySavedSources,
         );
     }
   }

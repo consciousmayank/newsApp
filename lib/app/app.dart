@@ -9,6 +9,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:news_app_mayank/ui/views/top_headlines/top_headlines_view.dart';
 import 'package:news_app_mayank/ui/views/all_news/all_news_view.dart';
 import 'package:news_app_mayank/ui/views/app_web/app_web_view.dart';
+import 'package:news_app_mayank/ui/views/news_list/news_list_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -18,6 +19,7 @@ import 'package:news_app_mayank/ui/views/app_web/app_web_view.dart';
       MaterialRoute(page: TopHeadlinesView),
       MaterialRoute(page: AllNewsView),
       MaterialRoute(page: AppWebView),
+MaterialRoute(page: NewsListView),
 // @stacked-route
     ],
     logger: StackedLogger(),
