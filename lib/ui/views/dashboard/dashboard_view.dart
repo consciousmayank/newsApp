@@ -12,7 +12,13 @@ class DashBoardView extends StatelessWidget {
       viewModelBuilder: () => DashboardViewModel(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
-          title: const Text('News App'),
+          title: const Text(
+            'News App',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
           backgroundColor:
               Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
           actions: [

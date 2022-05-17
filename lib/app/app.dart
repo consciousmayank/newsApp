@@ -9,7 +9,6 @@ import 'package:news_app_mayank/ui/views/startup/startup_view.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:news_app_mayank/ui/views/app_web/app_web_view.dart';
 import 'package:news_app_mayank/ui/views/news_list/news_list_view.dart';
-import 'package:news_app_mayank/ui/views/my_feed/my_feed_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -18,7 +17,6 @@ import 'package:news_app_mayank/ui/views/my_feed/my_feed_view.dart';
       MaterialRoute(page: DashBoardView),
       MaterialRoute(page: AppWebView),
       MaterialRoute(page: NewsListView),
-MaterialRoute(page: MyFeedView),
 // @stacked-route
     ],
     logger: StackedLogger(),

@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_mayank/enums/news_list_type.dart';
 import 'package:news_app_mayank/ui/common/ui_helpers.dart';
+import 'package:news_app_mayank/ui/views/source_view/source_view_widget.dart';
 import 'package:news_app_mayank/ui/widgets/app_bookmark_widget.dart';
 import 'package:news_app_mayank/ui/widgets/app_inkwell.dart';
 import 'package:news_app_mayank/ui/widgets/app_sliver_appbar.dart';
 import 'package:stacked/stacked.dart';
 import 'news_list_viewmodel.dart';
+import 'package:news_app_mayank/data_classes/sources.dart' as complete_source;
 
 class NewsListView extends StatefulWidget {
-  const NewsListView({
+  final List<complete_source.Sources> sourcesList;
+  const NewsListView(
+      {Key? key, required this.newsListType, this.sourcesList = const []})
+      : super(key: key);
+
+  const NewsListView.withSources({
     Key? key,
-    required this.newsListType,
-  }) : super(key: key);
+    required this.sourcesList,
+  })  : newsListType = NewsListType.mySavedSources,
+        super(key: key);
   final NewsListType newsListType;
 
   @override
@@ -55,7 +63,15 @@ class _NewsListViewState extends State<NewsListView> {
                             .applyDefaults(
                                 Theme.of(context).inputDecorationTheme)
                             .copyWith(
-                              hintText: 'Search',
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 8,
+                              ),
+                              labelStyle: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w900,
+                              ),
+                              label: const Text('Search'),
                               prefixIcon: const Icon(Icons.search),
                               border: OutlineInputBorder(
                                 borderRadius:
@@ -65,10 +81,22 @@ class _NewsListViewState extends State<NewsListView> {
                       ),
                     ),
                     horizontalSpaceTiny,
-                    ElevatedButton(
-                      onPressed: model.showFiltersBottomSheet,
-                      child: const Text('Filters'),
-                    )
+                    if (widget.newsListType == NewsListType.topHeadlines)
+                      AppInkwell.withBorder(
+                        borderderRadius: BorderRadius.circular(defaultBorder),
+                        onTap: model.showFiltersBottomSheet,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(defaultBorder),
+                            border: Border.all(
+                              color: Theme.of(context).dividerColor,
+                            ),
+                          ),
+                          height: kToolbarHeight * 1.1,
+                          width: kToolbarHeight * 1.1,
+                          child: const Icon(Icons.filter),
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -77,7 +105,7 @@ class _NewsListViewState extends State<NewsListView> {
                     child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.4,
                       child: const Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator.adaptive(),
                       ),
                     ),
                   )
@@ -127,7 +155,7 @@ class _NewsListViewState extends State<NewsListView> {
                                             child: CircularProgressIndicator(
                                               color: Theme.of(context)
                                                   .primaryColorDark,
-                                              strokeWidth: 12,
+                                              strokeWidth: 8,
                                             ),
                                           ),
                                         )
@@ -157,6 +185,10 @@ class _NewsListViewState extends State<NewsListView> {
                                         elevation: defaultElevation,
                                         clipBehavior: Clip.antiAlias,
                                         child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             model.newsArticles.articles !=
                                                         null &&
@@ -173,79 +205,61 @@ class _NewsListViewState extends State<NewsListView> {
                                                 : const AspectRatio(
                                                     aspectRatio: 2,
                                                     child: FlutterLogo()),
-                                            ListTile(
-                                              title: Text(
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
                                                 model.newsArticles.articles
                                                         ?.elementAt(index)
                                                         .title ??
                                                     '--',
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .titleMedium,
-                                              ),
-                                              subtitle: AppInkwell.withBorder(
-                                                borderderRadius:
-                                                    defaultBorderRadius,
-                                                onTap: () {
-                                                  model.saveSource(
-                                                    source: model
-                                                        .newsArticles.articles
-                                                        ?.elementAt(index)
-                                                        .source,
-                                                    selectedArticleIndex: index,
-                                                  );
-                                                },
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    Container(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                        horizontal: 8,
-                                                        vertical: 4,
-                                                      ),
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                          color: Colors.black87,
-                                                          width: 1,
-                                                        ),
-                                                        borderRadius:
-                                                            defaultBorderRadius,
-                                                      ),
-                                                      child: Row(
-                                                        children: [
-                                                          if (model.newsArticles
-                                                                  .articles
-                                                                  ?.elementAt(
-                                                                      index)
-                                                                  .source
-                                                                  ?.isSaved ==
-                                                              true)
-                                                            const Icon(
-                                                                Icons.check),
-                                                          Text(
-                                                            model.newsArticles
-                                                                    .articles
-                                                                    ?.elementAt(
-                                                                        index)
-                                                                    .source
-                                                                    ?.name ??
-                                                                '--',
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .labelMedium,
-                                                            textAlign:
-                                                                TextAlign.right,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
+                                                    .titleMedium
+                                                    ?.copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w900),
+                                                textAlign: TextAlign.left,
                                               ),
                                             ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                right: 4,
+                                                bottom: 4,
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  const Text('Source'),
+                                                  horizontalSpaceTiny,
+                                                  SourceViewWidget(
+                                                    key: Key(
+                                                      index.toString(),
+                                                    ),
+                                                    sourceName: model
+                                                            .newsArticles
+                                                            .articles
+                                                            ?.elementAt(index)
+                                                            .source
+                                                            ?.name ??
+                                                        '',
+                                                    onChipClicked: (
+                                                        {required bool value}) {
+                                                      model.saveSource(
+                                                        source: model
+                                                            .newsArticles
+                                                            .articles
+                                                            ?.elementAt(index)
+                                                            .source,
+                                                        selectedArticleIndex:
+                                                            index,
+                                                      );
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            )
                                           ],
                                         ),
                                       ),
@@ -268,7 +282,7 @@ class _NewsListViewState extends State<NewsListView> {
                                           model.setBookMarked(index: index);
                                         },
                                       ),
-                                    )
+                                    ),
                                   ],
                                 )),
                           childCount: model.getListLength() + 1,

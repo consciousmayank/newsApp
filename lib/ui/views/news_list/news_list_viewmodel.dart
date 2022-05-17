@@ -1,21 +1,23 @@
+import 'dart:io';
+
 import 'package:news_app_mayank/app/app.locator.dart';
 import 'package:news_app_mayank/app/app.router.dart';
 import 'package:news_app_mayank/app/base_viewmodel_mixin.dart';
 import 'package:news_app_mayank/data_classes/new_articles.dart';
+import 'package:news_app_mayank/data_classes/sources.dart' as complete_source;
+import 'package:news_app_mayank/enums/bottom_sheet_type.dart';
 import 'package:news_app_mayank/enums/news_list_type.dart';
 import 'package:news_app_mayank/enums/search_in.dart';
-import 'package:news_app_mayank/enums/snackbar_type.dart';
 import 'package:news_app_mayank/services/database_service.dart';
 import 'package:stacked/stacked.dart';
-import 'package:news_app_mayank/data_classes/sources.dart' as complete_source;
+import 'package:stacked_services/stacked_services.dart';
 
 const String getNewsBusyObjectKey = 'getNewsBusyObjectKey';
 const String getNextPageNewsBusyObjectKey = 'getNextPageNewsBusyObjectKey';
 
 class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
-  final List<complete_source.Source> _sources = [];
-
   final DatabaseService _databaseService = locator<DatabaseService>();
+  List<complete_source.Source> _selectedSources = [];
   int _pageNumber = 1;
 
   set pageNumber(int value) {
@@ -47,10 +49,10 @@ class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
       case NewsListType.topHeadlines:
         apiResponse = await runBusyFuture(
           networkApiService.getTopHeadlines(
-            page: pageNumber,
-            pageSize: 20,
-            query: _queryString,
-          ),
+              page: pageNumber,
+              pageSize: 20,
+              query: _queryString,
+              sources: _selectedSources.map((e) => e.id ?? '').toList()),
           busyObject: pageNumber == 1
               ? getNewsBusyObjectKey
               : getNextPageNewsBusyObjectKey,
@@ -165,7 +167,20 @@ class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
     }
   }
 
-  void showFiltersBottomSheet() {}
+  Future<void> showFiltersBottomSheet() async {
+    SheetResponse? response = await bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.filter,
+      title: 'Filter By Sources',
+      description:
+          'Select the sources whose news you want to see. You can select multiple sources. You can choose from the list of all the sources, or from the list of your saved sources.',
+      isScrollControlled: true,
+    );
+
+    if (response != null && response.confirmed) {
+      _selectedSources = response.data as List<complete_source.Source>;
+      getNews();
+    }
+  }
 
   int getListLength() {
     return newsArticles.articles != null && newsArticles.articles!.isNotEmpty
@@ -202,7 +217,7 @@ class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
     return await _databaseService.getSavedSources();
   }
 
-  checkIfSourceExistsInDb({required String sourceName}) async {
+  Future checkIfSourceExistsInDb({required String sourceName}) async {
     List<complete_source.Source> savedSources = await getSourcesFromDb();
     return savedSources.firstWhere(
       (element) => element.name == sourceName,
@@ -239,11 +254,6 @@ class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
           ),
         );
         if (indexOfInsertedSource != null && indexOfInsertedSource > 0) {
-          snackbarService.showCustomSnackBar(
-            message: 'Source saved',
-            variant: SnackbarType.normal,
-          );
-
           updateArticle(
             selectedArticleIndex: selectedArticleIndex,
             value: true,
@@ -254,10 +264,10 @@ class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
             name: sourceFromDb.name ?? '');
 
         if (indexOfDeletedSource != null && indexOfDeletedSource > 0) {
-          snackbarService.showCustomSnackBar(
-            message: 'Source Removed',
-            variant: SnackbarType.normal,
-          );
+          // snackbarService.showCustomSnackBar(
+          //   message: 'Source Removed',
+          //   variant: SnackbarType.normal,
+          // );
           updateArticle(
             selectedArticleIndex: selectedArticleIndex,
             value: false,
@@ -282,5 +292,28 @@ class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
       newsArticles.articles?.insert(selectedArticleIndex, singleArticle);
       notifyListeners();
     }
+  }
+
+  void deleteSource({required int index}) {
+    dialogService
+        .showConfirmationDialog(
+      barrierDismissible: true,
+      cancelTitle: 'Cancel',
+      confirmationTitle: 'Yes',
+      description: 'Are you sure you want to delete this source?',
+      title: 'Delete Source',
+      dialogPlatform: Platform.isAndroid
+          ? DialogPlatform.Material
+          : DialogPlatform.Cupertino,
+    )
+        .then((value) {
+      if (value != null && value.confirmed) {
+        saveSource(
+          source: newsArticles.articles?.elementAt(index).source,
+          selectedArticleIndex: index,
+        );
+        notifyListeners();
+      }
+    });
   }
 }

@@ -66,8 +66,12 @@ class _AppWebViewState extends State<AppWebView> {
                           vertical: 16,
                           horizontal: 8,
                         ),
-                        child: LinearProgressIndicator(
-                          value: model.loadingPercentage / 100.0,
+                        child: SizedBox(
+                          height: buttonHeight,
+                          width: buttonHeight,
+                          child: CircularProgressIndicator.adaptive(
+                            value: model.loadingPercentage / 100.0,
+                          ),
                         ),
                       ),
                     ),

@@ -9,6 +9,11 @@ class Sources {
     this.status,
     this.sources,
   });
+  Sources.empty()
+      : this(
+          status: '',
+          sources: [],
+        );
 
   final String? status;
   final List<Source>? sources;
@@ -50,7 +55,20 @@ class Source {
     this.category,
     this.language,
     this.country,
+    this.isSaved = false,
   });
+
+  Source.empty()
+      : this(
+          id: '',
+          name: null,
+          description: '',
+          url: '',
+          category: '',
+          language: '',
+          country: '',
+          isSaved: false,
+        );
 
   final String? id;
   final String? name;
@@ -59,6 +77,7 @@ class Source {
   final String? category;
   final String? language;
   final String? country;
+  final bool isSaved;
 
   Source copyWith({
     String? id,
@@ -68,6 +87,7 @@ class Source {
     String? category,
     String? language,
     String? country,
+    bool? isSaved,
   }) =>
       Source(
         id: id ?? this.id,
@@ -77,6 +97,7 @@ class Source {
         category: category ?? this.category,
         language: language ?? this.language,
         country: country ?? this.country,
+        isSaved: isSaved ?? this.isSaved,
       );
 
   factory Source.fromJson(String str) => Source.fromMap(json.decode(str));

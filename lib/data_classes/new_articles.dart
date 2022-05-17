@@ -125,7 +125,7 @@ class Article {
       );
 
   factory Article.fromMapDb(Map<String, dynamic> json) => Article(
-        source: Source(id: json["source"], name: 'From Db'),
+        source: Source(id: '', name: json["source"]),
         author: json["author"],
         title: json["title"],
         description: json["description"],
@@ -147,7 +147,7 @@ class Article {
       };
 
   Map<String, dynamic> toMapDb() => {
-        "source": source != null ? source!.id : '',
+        "source": source != null ? source!.name : '',
         "author": author ?? '',
         "title": title ?? '',
         "description": description ?? '',

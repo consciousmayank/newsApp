@@ -86,11 +86,15 @@ class AppSliverAppbar extends StatelessWidget {
         collapseMode: CollapseMode.pin,
       ),
       iconTheme: Theme.of(context).iconTheme.copyWith(
-            color: background != null ? Colors.white : Colors.black,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
           ),
       floating: true,
       pinned: pinned,
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? Colors.black
+          : Colors.white,
       elevation: 0,
       title: child,
     );

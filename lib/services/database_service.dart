@@ -68,7 +68,9 @@ class DatabaseService {
     // Convert the List<Map<String, dynamic> into a List<Article>.
     return maps != null
         ? List.generate(maps.length, (i) {
-            return complete_source.Source.fromMapDB(maps[i]);
+            return complete_source.Source.fromMapDB(maps[i]).copyWith(
+              isSaved: true,
+            );
           })
         : [];
   }
