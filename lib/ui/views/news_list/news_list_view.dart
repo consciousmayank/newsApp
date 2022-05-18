@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_mayank/enums/news_list_type.dart';
 import 'package:news_app_mayank/ui/common/ui_helpers.dart';
+import 'package:news_app_mayank/ui/views/news_list/all_news_filter_widget.dart';
+import 'package:news_app_mayank/ui/views/news_list/top_headlines_filter_widget.dart';
 import 'package:news_app_mayank/ui/views/source_view/source_view_widget.dart';
 import 'package:news_app_mayank/ui/widgets/app_bookmark_widget.dart';
 import 'package:news_app_mayank/ui/widgets/app_inkwell.dart';
@@ -82,21 +84,9 @@ class _NewsListViewState extends State<NewsListView> {
                     ),
                     horizontalSpaceTiny,
                     if (widget.newsListType == NewsListType.topHeadlines)
-                      AppInkwell.withBorder(
-                        borderderRadius: BorderRadius.circular(defaultBorder),
-                        onTap: model.showFiltersBottomSheet,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(defaultBorder),
-                            border: Border.all(
-                              color: Theme.of(context).dividerColor,
-                            ),
-                          ),
-                          height: kToolbarHeight * 1.1,
-                          width: kToolbarHeight * 1.1,
-                          child: const Icon(Icons.filter),
-                        ),
-                      ),
+                      const TopHeadlinesFilterWidget(),
+                    if (widget.newsListType == NewsListType.everything)
+                      const AllNewsFilterWidget(),
                   ],
                 ),
               ),

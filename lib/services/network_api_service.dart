@@ -28,6 +28,7 @@ abstract class AbstractNetworkApiService {
     required int page,
     required int pageSize,
     String? query,
+    required String country,
   });
 
   Future<complete_source.Sources> getOnlineSources();
@@ -52,7 +53,7 @@ class NetworkApiService implements AbstractNetworkApiService {
 
     queryParameters['page'] = page.toString();
     queryParameters['pageSize'] = pageSize.toString();
-    queryParameters['sortBy'] = sortBy.toString();
+    queryParameters['sortBy'] = sortBy.name;
 
     if (sources.isNotEmpty) {
       queryParameters['sources'] = sources.join(',');
@@ -91,6 +92,7 @@ class NetworkApiService implements AbstractNetworkApiService {
     required int page,
     required int pageSize,
     String? query,
+    required String country,
   }) async {
     NewsArticles newsArticles = NewsArticles.empty();
 
@@ -98,9 +100,10 @@ class NetworkApiService implements AbstractNetworkApiService {
 
     queryParameters['page'] = page.toString();
     queryParameters['pageSize'] = pageSize.toString();
-    if (sources.isEmpty) {
-      queryParameters['country'] = 'in';
-    }
+
+    // if (sources.isEmpty) {
+    queryParameters['country'] = country;
+    // }
 
     if (category != Category.all) {
       queryParameters['category'] = category.name;

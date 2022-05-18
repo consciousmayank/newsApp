@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_mayank/ui/bottom_sheets/filter_sheet/filter_sheet_viewmodel.dart';
+import 'package:news_app_mayank/ui/bottom_sheets/filter_sheet/sources/filter_sheet_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
 class SavedSourcesListView extends ViewModelWidget<FilterSheetViewModel> {

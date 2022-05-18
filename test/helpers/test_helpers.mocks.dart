@@ -556,12 +556,14 @@ class MockNetworkApiService extends _i1.Mock implements _i10.NetworkApiService {
                   Future<_i3.NewsArticles>.value(_FakeNewsArticles_1()))
           as _i5.Future<_i3.NewsArticles>);
   @override
-  _i5.Future<_i3.NewsArticles> getTopHeadlines(
-          {_i13.Category? category = _i13.Category.all,
-          List<String>? sources = const [],
-          int? page,
-          int? pageSize,
-          String? query}) =>
+  _i5.Future<_i3.NewsArticles> getTopHeadlines({
+    _i13.Category? category = _i13.Category.all,
+    List<String>? sources = const [],
+    int? page,
+    int? pageSize,
+    String? query,
+    required String country,
+  }) =>
       (super.noSuchMethod(
               Invocation.method(#getTopHeadlines, [], {
                 #category: category,

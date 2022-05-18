@@ -24,10 +24,10 @@ class DioClientService {
     if (EnvironmentConfig.showLogs) {
       _dio.interceptors.add(
         PrettyDioLogger(
-          requestHeader: true,
+          requestHeader: false,
           requestBody: true,
-          responseBody: true,
-          responseHeader: true,
+          responseBody: false,
+          responseHeader: false,
           error: true,
           compact: true,
           maxWidth: 90,

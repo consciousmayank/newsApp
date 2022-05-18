@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_mayank/ui/bottom_sheets/filter_sheet/filter_sheet_viewmodel.dart';
-import 'package:news_app_mayank/ui/bottom_sheets/filter_sheet/online_sources_list_view.dart';
-import 'package:news_app_mayank/ui/bottom_sheets/filter_sheet/saved_sources_list_view.dart';
+import 'package:news_app_mayank/ui/bottom_sheets/filter_sheet/sources/filter_sheet_viewmodel.dart';
+import 'package:news_app_mayank/ui/bottom_sheets/filter_sheet/sources/online_sources_list_view.dart';
+import 'package:news_app_mayank/ui/bottom_sheets/filter_sheet/sources/saved_sources_list_view.dart';
 import 'package:news_app_mayank/ui/common/app_colors.dart';
 import 'package:news_app_mayank/ui/common/ui_helpers.dart';
 import 'package:news_app_mayank/ui/widgets/app_toggle_button.dart';

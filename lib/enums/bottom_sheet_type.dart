@@ -1,4 +1,8 @@
 enum BottomSheetType {
   notice,
-  filter,
+  sourcesFilter,
+  categoriesFilter,
+  countriesFilter,
+  searchinFilter,
+  sortByFilter,
 }

@@ -8,17 +8,24 @@ import 'package:news_app_mayank/data_classes/sources.dart' as complete_source;
 import 'package:news_app_mayank/enums/bottom_sheet_type.dart';
 import 'package:news_app_mayank/enums/news_list_type.dart';
 import 'package:news_app_mayank/enums/search_in.dart';
+import 'package:news_app_mayank/enums/sort_by.dart';
 import 'package:news_app_mayank/services/database_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:news_app_mayank/enums/category.dart' as enum_category;
 
 const String getNewsBusyObjectKey = 'getNewsBusyObjectKey';
 const String getNextPageNewsBusyObjectKey = 'getNextPageNewsBusyObjectKey';
 
 class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
+  List<SearchIn> _selectedSearchIns = [];
   final DatabaseService _databaseService = locator<DatabaseService>();
   List<complete_source.Source> _selectedSources = [];
+  enum_category.Category selectedCategory = enum_category.Category.all;
+  String selectedCountry = 'in';
   int _pageNumber = 1;
+
+  SortBy _selectedSortBy = SortBy.publishedAt;
 
   set pageNumber(int value) {
     _pageNumber = value;
@@ -49,6 +56,8 @@ class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
       case NewsListType.topHeadlines:
         apiResponse = await runBusyFuture(
           networkApiService.getTopHeadlines(
+              country: selectedCountry,
+              category: selectedCategory,
               page: pageNumber,
               pageSize: 20,
               query: _queryString,
@@ -64,12 +73,10 @@ class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
           networkApiService.getEverything(
             page: pageNumber,
             pageSize: 20,
-            query: _queryString ?? 'ipl',
-            searchIn: [
-              SearchIn.title,
-              // SearchIn.content,
-              // SearchIn.description,
-            ],
+            query: _selectedSources.isEmpty ? _queryString ?? 'ipl' : null,
+            searchIn: _selectedSearchIns,
+            sortBy: _selectedSortBy,
+            sources: _selectedSources.map((e) => e.id ?? '').toList(),
           ),
           busyObject: pageNumber == 1
               ? getNewsBusyObjectKey
@@ -169,7 +176,7 @@ class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
 
   Future<void> showFiltersBottomSheet() async {
     SheetResponse? response = await bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.filter,
+      variant: BottomSheetType.sourcesFilter,
       title: 'Filter By Sources',
       description:
           'Select the sources whose news you want to see. You can select multiple sources. You can choose from the list of all the sources, or from the list of your saved sources.',
@@ -177,6 +184,7 @@ class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
     );
 
     if (response != null && response.confirmed) {
+      selectedCategory = enum_category.Category.all;
       _selectedSources = response.data as List<complete_source.Source>;
       getNews();
     }
@@ -315,5 +323,130 @@ class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
         notifyListeners();
       }
     });
+  }
+
+  List<String> topHeadlinesfilterOptions = [
+    'Select a Category',
+    'Select Source/s',
+    'Select a Country'
+  ];
+
+  String _selectedFilterOption = '';
+
+  String get selectedFilterOption => _selectedFilterOption.isEmpty
+      ? _newsListType == NewsListType.topHeadlines
+          ? topHeadlinesfilterOptions.first
+          : allNewsfilterOptions.first
+      : _selectedFilterOption;
+
+  set selectedFilterOption(String value) {
+    _selectedFilterOption = value;
+    notifyListeners();
+  }
+
+  Future<void> showCategoryFiltersBottomSheet() async {
+    SheetResponse? response = await bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.categoriesFilter,
+      title: 'Select a Category',
+      description:
+          'Select the category whose news you want to see. You can select only one of the provided categories.',
+      isScrollControlled: false,
+    );
+
+    if (response != null && response.confirmed) {
+      _selectedSources.clear();
+      selectedCategory = response.data as enum_category.Category;
+      getNews();
+    }
+  }
+
+  Future<void> showCountryFiltersBottomSheet() async {
+    SheetResponse? response = await bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.countriesFilter,
+      title: 'Select a Country',
+      description:
+          'Select the country whose news you want to see. You can select only one of the provided countries.',
+      isScrollControlled: false,
+    );
+
+    if (response != null && response.confirmed) {
+      selectedCountry = response.data as String;
+      selectedCountry = '';
+      _selectedSources.clear();
+      selectedCategory = enum_category.Category.all;
+      getNews();
+    }
+  }
+
+  Future<void> showSearchInBottomSheet() async {
+    SheetResponse? response = await bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.searchinFilter,
+      title: 'Select where to search',
+      description:
+          'Select the fields to restrict your search to. You can select multiple options',
+      isScrollControlled: false,
+    );
+
+    if (response != null && response.confirmed) {
+      _selectedSearchIns = response.data as List<SearchIn>;
+      getNews();
+    }
+  }
+
+  Future<void> showSortByInBottomSheet() async {
+    SheetResponse? response = await bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.sortByFilter,
+      title: 'Select how the resuts should be sorted',
+      description: 'You can select only one option at a time',
+      isScrollControlled: false,
+    );
+
+    if (response != null && response.confirmed) {
+      _selectedSortBy = response.data as SortBy;
+      getNews();
+    }
+  }
+
+  void handleTopHeadlinesFilterOptionSelection(int value) {
+    selectedFilterOption = topHeadlinesfilterOptions.elementAt(value);
+    switch (value) {
+      case 0:
+        showCategoryFiltersBottomSheet();
+        break;
+
+      case 1:
+        showFiltersBottomSheet();
+        break;
+      case 2:
+        showCountryFiltersBottomSheet();
+        break;
+    }
+  }
+
+  List<String> allNewsfilterOptions = [
+    'Select Source/s',
+    'Select a Country',
+    'Select searchIn',
+    'Sort By'
+  ];
+
+  void handleAllNewsFilterOptionSelection(int value) {
+    selectedFilterOption = allNewsfilterOptions.elementAt(value);
+    switch (value) {
+      case 0:
+        showFiltersBottomSheet();
+        break;
+
+      case 1:
+        showCountryFiltersBottomSheet();
+        break;
+
+      case 2:
+        showSearchInBottomSheet();
+        break;
+      case 3:
+        showSortByInBottomSheet();
+        break;
+    }
   }
 }
