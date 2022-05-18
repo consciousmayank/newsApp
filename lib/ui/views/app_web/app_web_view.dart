@@ -9,13 +9,14 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'app_web_viewmodel.dart';
 
 class AppWebView extends StatefulWidget {
-  final String urlToLoad;
-  final Source? source;
   const AppWebView({
     Key? key,
     required this.urlToLoad,
     required this.source,
   }) : super(key: key);
+
+  final Source? source;
+  final String urlToLoad;
 
   @override
   State<AppWebView> createState() => _AppWebViewState();
@@ -23,6 +24,7 @@ class AppWebView extends StatefulWidget {
 
 class _AppWebViewState extends State<AppWebView> {
   WebViewController? controller;
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<AppWebViewModel>.reactive(

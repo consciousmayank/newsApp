@@ -4,6 +4,13 @@ import 'package:news_app_mayank/ui/common/ui_helpers.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class CountryFilterSheet extends StatelessWidget {
+  const CountryFilterSheet({
+    Key? key,
+    required this.completer,
+    required this.request,
+  }) : super(key: key);
+
+  final Function(SheetResponse)? completer;
   final Map<String, String> countriesList = const {
     'India': 'in',
     'United States': 'us',
@@ -13,13 +20,8 @@ class CountryFilterSheet extends StatelessWidget {
     'Hong Kong': 'hk',
     'Singapore': 'sg',
   };
-  final Function(SheetResponse)? completer;
+
   final SheetRequest request;
-  const CountryFilterSheet({
-    Key? key,
-    required this.completer,
-    required this.request,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

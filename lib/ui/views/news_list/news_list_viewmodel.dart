@@ -18,14 +18,30 @@ const String getNewsBusyObjectKey = 'getNewsBusyObjectKey';
 const String getNextPageNewsBusyObjectKey = 'getNextPageNewsBusyObjectKey';
 
 class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
-  List<SearchIn> _selectedSearchIns = [];
-  final DatabaseService _databaseService = locator<DatabaseService>();
-  List<complete_source.Source> _selectedSources = [];
+  List<String> allNewsfilterOptions = [
+    'Select Source/s',
+    'Select a Country',
+    'Select searchIn',
+    'Sort By'
+  ];
+
+  NewsArticles newsArticles = NewsArticles.empty();
   enum_category.Category selectedCategory = enum_category.Category.all;
   String selectedCountry = 'in';
-  int _pageNumber = 1;
+  List<String> topHeadlinesfilterOptions = [
+    'Select a Category',
+    'Select Source/s',
+    'Select a Country'
+  ];
 
+  final DatabaseService _databaseService = locator<DatabaseService>();
+  late final NewsListType _newsListType;
+  int _pageNumber = 1;
+  String? _queryString;
+  String _selectedFilterOption = '';
+  List<SearchIn> _selectedSearchIns = [];
   SortBy _selectedSortBy = SortBy.publishedAt;
+  List<complete_source.Source> _selectedSources = [];
 
   set pageNumber(int value) {
     _pageNumber = value;
@@ -33,7 +49,7 @@ class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
   }
 
   int get pageNumber => _pageNumber;
-  String? _queryString;
+
   set queryString(String? value) {
     _queryString = value;
     getNews();
@@ -41,8 +57,6 @@ class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
 
   String? get queryString => _queryString;
 
-  NewsArticles newsArticles = NewsArticles.empty();
-  late final NewsListType _newsListType;
   init({required newsListType}) {
     _newsListType = newsListType;
 
@@ -325,14 +339,6 @@ class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
     });
   }
 
-  List<String> topHeadlinesfilterOptions = [
-    'Select a Category',
-    'Select Source/s',
-    'Select a Country'
-  ];
-
-  String _selectedFilterOption = '';
-
   String get selectedFilterOption => _selectedFilterOption.isEmpty
       ? _newsListType == NewsListType.topHeadlines
           ? topHeadlinesfilterOptions.first
@@ -422,13 +428,6 @@ class NewsListViewModel extends BaseViewModel with BaseViewModelMixin {
         break;
     }
   }
-
-  List<String> allNewsfilterOptions = [
-    'Select Source/s',
-    'Select a Country',
-    'Select searchIn',
-    'Sort By'
-  ];
 
   void handleAllNewsFilterOptionSelection(int value) {
     selectedFilterOption = allNewsfilterOptions.elementAt(value);

@@ -2,14 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:news_app_mayank/ui/common/ui_helpers.dart';
 
 class AppToggleButton extends StatefulWidget {
-  final Function(
-    Widget selectedValue,
-    int selectedIndex,
-  ) optionSelected;
-  final List<Widget> options;
-  final bool isSingleSelection;
-  final int preSelectedIndex;
-
   const AppToggleButton({
     Key? key,
     required this.options,
@@ -25,6 +17,15 @@ class AppToggleButton extends StatefulWidget {
     this.preSelectedIndex = 0,
   })  : isSingleSelection = false,
         super(key: key);
+
+  final Function(
+    Widget selectedValue,
+    int selectedIndex,
+  ) optionSelected;
+
+  final bool isSingleSelection;
+  final List<Widget> options;
+  final int preSelectedIndex;
 
   @override
   _AppToggleButtonState createState() => _AppToggleButtonState();

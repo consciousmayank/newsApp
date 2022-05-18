@@ -3,13 +3,14 @@ import 'package:news_app_mayank/ui/views/source_view/source_view_widget_viewmode
 import 'package:stacked/stacked.dart';
 
 class SourceViewWidget extends StatelessWidget {
-  final Function({required bool value}) onChipClicked;
-  final String sourceName;
   const SourceViewWidget({
     Key? key,
     required this.sourceName,
     required this.onChipClicked,
   }) : super(key: key);
+
+  final Function({required bool value}) onChipClicked;
+  final String sourceName;
 
   @override
   Widget build(BuildContext context) {

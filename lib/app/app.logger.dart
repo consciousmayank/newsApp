@@ -11,12 +11,6 @@ import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
 class SimpleLogPrinter extends LogPrinter {
-  final String className;
-  final bool printCallingFunctionName;
-  final bool printCallStack;
-  final List<String> exludeLogsFromClasses;
-  final String? showOnlyClass;
-
   SimpleLogPrinter(
     this.className, {
     this.printCallingFunctionName = true,
@@ -24,6 +18,12 @@ class SimpleLogPrinter extends LogPrinter {
     this.exludeLogsFromClasses = const [],
     this.showOnlyClass,
   });
+
+  final String className;
+  final List<String> exludeLogsFromClasses;
+  final bool printCallStack;
+  final bool printCallingFunctionName;
+  final String? showOnlyClass;
 
   @override
   List<String> log(LogEvent event) {
@@ -105,8 +105,9 @@ List<String>? _formatStackTrace(StackTrace stackTrace, int methodCount) {
 }
 
 class MultipleLoggerOutput extends LogOutput {
-  final List<LogOutput> logOutputs;
   MultipleLoggerOutput(this.logOutputs);
+
+  final List<LogOutput> logOutputs;
 
   @override
   void output(OutputEvent event) {

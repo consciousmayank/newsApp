@@ -3,13 +3,14 @@ import 'package:news_app_mayank/ui/common/ui_helpers.dart';
 import 'package:news_app_mayank/ui/widgets/app_inkwell.dart';
 
 class AppBookMarkWidget extends StatelessWidget {
-  final bool isSelected;
-  final VoidCallback onTap;
   const AppBookMarkWidget({
     Key? key,
     required this.isSelected,
     required this.onTap,
   }) : super(key: key);
+
+  final bool isSelected;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {

@@ -12,7 +12,6 @@ import 'news_list_viewmodel.dart';
 import 'package:news_app_mayank/data_classes/sources.dart' as complete_source;
 
 class NewsListView extends StatefulWidget {
-  final List<complete_source.Sources> sourcesList;
   const NewsListView(
       {Key? key, required this.newsListType, this.sourcesList = const []})
       : super(key: key);
@@ -22,7 +21,9 @@ class NewsListView extends StatefulWidget {
     required this.sourcesList,
   })  : newsListType = NewsListType.mySavedSources,
         super(key: key);
+
   final NewsListType newsListType;
+  final List<complete_source.Sources> sourcesList;
 
   @override
   State<NewsListView> createState() => _NewsListViewState();

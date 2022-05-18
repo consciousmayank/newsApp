@@ -11,8 +11,8 @@ const String getSourcesFromTopHeadlinesBusyObject =
 class FilterSheetViewModel extends IndexTrackingViewModel
     with BaseViewModelMixin {
   final DatabaseService _databaseService = locator<DatabaseService>();
-  List<complete_source.Source> _savedSources = [];
   complete_source.Sources _onlineSources = complete_source.Sources.empty();
+  List<complete_source.Source> _savedSources = [];
   final List<complete_source.Source> _selectedSources = [];
 
   getSourcesFromDb() async {
@@ -21,7 +21,9 @@ class FilterSheetViewModel extends IndexTrackingViewModel
   }
 
   List<complete_source.Source> get savedSources => _savedSources;
+
   List<complete_source.Source> get selectedSources => _selectedSources;
+
   complete_source.Sources get onlineSources => _onlineSources;
 
   init() {

@@ -13,6 +13,17 @@ class AppSliverAppbar extends StatelessWidget {
           key: key,
         );
 
+  const AppSliverAppbar.nonPinned({
+    Key? key,
+    required this.child,
+    this.toolBarHeight = kToolbarHeight * 1.5,
+  })  : background = null,
+        pinned = false,
+        showAppFlexBackground = false,
+        super(
+          key: key,
+        );
+
   const AppSliverAppbar.withBackground({
     Key? key,
     required this.child,
@@ -35,22 +46,11 @@ class AppSliverAppbar extends StatelessWidget {
           key: key,
         );
 
-  const AppSliverAppbar.nonPinned({
-    Key? key,
-    required this.child,
-    this.toolBarHeight = kToolbarHeight * 1.5,
-  })  : background = null,
-        pinned = false,
-        showAppFlexBackground = false,
-        super(
-          key: key,
-        );
-
-  final Widget child;
   final Widget? background;
+  final Widget child;
+  final bool pinned;
   final bool showAppFlexBackground;
   final double toolBarHeight;
-  final bool pinned;
 
   @override
   Widget build(BuildContext context) {

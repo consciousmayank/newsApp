@@ -3,24 +3,6 @@ import 'package:news_app_mayank/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 
 class MaterialThemeServiceService with ReactiveServiceMixin {
-  final List<Color> _colorOptions = [
-    Colors.blue,
-    Colors.green,
-    Colors.red,
-  ];
-  final List<String> _colorText = <String>[
-    "Blue",
-    "Green",
-    "Red",
-  ];
-
-  final ReactiveValue<bool> _useMaterial3 = ReactiveValue<bool>(true);
-  final ReactiveValue<bool> _useLightMode = ReactiveValue<bool>(true);
-  final ReactiveValue<int> _colorSelected = ReactiveValue<int>(2);
-  // final ReactiveValue<int> _screenIndex = ReactiveValue<int>(0);
-
-  late ReactiveValue<ThemeData> _themeData;
-
   MaterialThemeServiceService() {
     _themeData = ReactiveValue(
         updateThemes(_colorSelected.value, true, _useLightMode.value));
@@ -28,6 +10,26 @@ class MaterialThemeServiceService with ReactiveServiceMixin {
       [_themeData, _colorSelected, _useLightMode, _colorOptions],
     );
   }
+
+  final List<Color> _colorOptions = [
+    Colors.blue,
+    Colors.green,
+    Colors.red,
+  ];
+
+  final ReactiveValue<int> _colorSelected = ReactiveValue<int>(2);
+  final List<String> _colorText = <String>[
+    "Blue",
+    "Green",
+    "Red",
+  ];
+
+  // final ReactiveValue<int> _screenIndex = ReactiveValue<int>(0);
+
+  late ReactiveValue<ThemeData> _themeData;
+
+  final ReactiveValue<bool> _useLightMode = ReactiveValue<bool>(true);
+  final ReactiveValue<bool> _useMaterial3 = ReactiveValue<bool>(true);
 
   get useLightMode => _useLightMode.value;
 
@@ -62,6 +64,8 @@ class MaterialThemeServiceService with ReactiveServiceMixin {
   }
 
   ThemeData get themeData => _themeData.value;
+
   List<Color> get colorOptions => _colorOptions;
+
   List<String> get colorText => _colorText;
 }

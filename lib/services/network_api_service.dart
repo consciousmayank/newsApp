@@ -86,6 +86,31 @@ class NetworkApiService implements AbstractNetworkApiService {
   }
 
   @override
+  Future<complete_source.Sources> getOnlineSources() async {
+    complete_source.Sources sources = complete_source.Sources.empty();
+
+    try {
+      final Response response = await _dioClientService.dio.get(
+        sourcesApiEndpoint,
+        queryParameters: {
+          'language': "en",
+          // 'country': "in",
+        },
+      );
+
+      sources = complete_source.Sources.fromMap(response.data);
+    } on DioError catch (e) {
+      _snackbarService.showCustomSnackBar(
+        message: e.response?.data['message'],
+        title: 'Error',
+        variant: SnackbarType.error,
+      );
+    }
+
+    return sources;
+  }
+
+  @override
   Future<NewsArticles> getTopHeadlines({
     Category category = Category.all,
     List<String> sources = const [],
@@ -132,30 +157,5 @@ class NetworkApiService implements AbstractNetworkApiService {
     }
 
     return newsArticles;
-  }
-
-  @override
-  Future<complete_source.Sources> getOnlineSources() async {
-    complete_source.Sources sources = complete_source.Sources.empty();
-
-    try {
-      final Response response = await _dioClientService.dio.get(
-        sourcesApiEndpoint,
-        queryParameters: {
-          'language': "en",
-          // 'country': "in",
-        },
-      );
-
-      sources = complete_source.Sources.fromMap(response.data);
-    } on DioError catch (e) {
-      _snackbarService.showCustomSnackBar(
-        message: e.response?.data['message'],
-        title: 'Error',
-        variant: SnackbarType.error,
-      );
-    }
-
-    return sources;
   }
 }

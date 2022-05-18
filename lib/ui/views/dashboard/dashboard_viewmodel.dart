@@ -6,10 +6,12 @@ import 'package:news_app_mayank/ui/views/news_list/news_list_view.dart';
 import 'package:stacked/stacked.dart';
 
 class DashboardViewModel extends ReactiveViewModel {
+  int _selectedIndex = 0;
   final MaterialThemeServiceService _themeService =
       locator<MaterialThemeServiceService>();
 
-  int _selectedIndex = 0;
+  @override
+  List<ReactiveServiceMixin> get reactiveServices => [_themeService];
 
   int get selectedIndex => _selectedIndex;
 
@@ -19,9 +21,11 @@ class DashboardViewModel extends ReactiveViewModel {
   }
 
   ThemeData getTheme() => _themeService.themeData;
+
   getColorOptions() => _themeService.colorOptions;
 
   get getColorTextOptions => _themeService.colorText;
+
   void handleBrightnessChange() {
     _themeService.handleBrightnessChange();
   }
@@ -37,9 +41,6 @@ class DashboardViewModel extends ReactiveViewModel {
   int colorSelected() {
     return _themeService.colorSelected;
   }
-
-  @override
-  List<ReactiveServiceMixin> get reactiveServices => [_themeService];
 
   Widget getViewForIndex() {
     switch (_selectedIndex) {

@@ -5,13 +5,14 @@ import 'package:news_app_mayank/ui/common/ui_helpers.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class SearchInFilterList extends StatefulWidget {
-  final Function(SheetResponse)? completer;
-  final SheetRequest request;
   const SearchInFilterList({
     Key? key,
     required this.completer,
     required this.request,
   }) : super(key: key);
+
+  final Function(SheetResponse)? completer;
+  final SheetRequest request;
 
   @override
   State<SearchInFilterList> createState() => _SearchInFilterListState();

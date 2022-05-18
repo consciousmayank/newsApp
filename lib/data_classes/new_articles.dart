@@ -7,9 +7,26 @@ class NewsArticles {
     this.articles,
   });
 
+  NewsArticles.empty()
+      : this(
+          status: null,
+          totalResults: 0,
+          articles: [],
+        );
+
+  factory NewsArticles.fromJson(String str) =>
+      NewsArticles.fromMap(json.decode(str));
+
+  factory NewsArticles.fromMap(Map<String, dynamic> json) => NewsArticles(
+        status: json["status"],
+        totalResults: json["totalResults"],
+        articles:
+            List<Article>.from(json["articles"].map((x) => Article.fromMap(x))),
+      );
+
+  final List<Article>? articles;
   final String? status;
   final int? totalResults;
-  final List<Article>? articles;
 
   NewsArticles copyWith({
     String? status,
@@ -22,17 +39,7 @@ class NewsArticles {
         articles: articles ?? this.articles,
       );
 
-  factory NewsArticles.fromJson(String str) =>
-      NewsArticles.fromMap(json.decode(str));
-
   String toJson() => json.encode(toMap());
-
-  factory NewsArticles.fromMap(Map<String, dynamic> json) => NewsArticles(
-        status: json["status"],
-        totalResults: json["totalResults"],
-        articles:
-            List<Article>.from(json["articles"].map((x) => Article.fromMap(x))),
-      );
 
   Map<String, dynamic> toMap() => {
         "status": status,
@@ -41,13 +48,6 @@ class NewsArticles {
             ? List<dynamic>.from(articles!.map((x) => x.toMap()))
             : [],
       };
-
-  NewsArticles.empty()
-      : this(
-          status: null,
-          totalResults: 0,
-          articles: [],
-        );
 }
 
 class Article {
@@ -76,15 +76,39 @@ class Article {
           isBookmarked: false,
         );
 
-  final Source? source;
+  factory Article.fromJson(String str) => Article.fromMap(json.decode(str));
+
+  factory Article.fromMap(Map<String, dynamic> json) => Article(
+        source: Source.fromMap(json["source"]),
+        author: json["author"],
+        title: json["title"],
+        description: json["description"],
+        url: json["url"],
+        urlToImage: json["urlToImage"],
+        publishedAt: DateTime.parse(json["publishedAt"]),
+        content: json["content"],
+      );
+
+  factory Article.fromMapDb(Map<String, dynamic> json) => Article(
+        source: Source(id: '', name: json["source"]),
+        author: json["author"],
+        title: json["title"],
+        description: json["description"],
+        url: json["url"],
+        urlToImage: json["urlToImage"],
+        publishedAt: DateTime.parse(json["publishedAt"]),
+        content: json["content"],
+      );
+
   final String? author;
-  final String? title;
+  final String? content;
   final String? description;
+  final bool isBookmarked;
+  final DateTime? publishedAt;
+  final Source? source;
+  final String? title;
   final String? url;
   final String? urlToImage;
-  final DateTime? publishedAt;
-  final String? content;
-  final bool isBookmarked;
 
   Article copyWith({
     Source? source,
@@ -109,31 +133,7 @@ class Article {
         isBookmarked: isBookmarked ?? this.isBookmarked,
       );
 
-  factory Article.fromJson(String str) => Article.fromMap(json.decode(str));
-
   String toJson() => json.encode(toMap());
-
-  factory Article.fromMap(Map<String, dynamic> json) => Article(
-        source: Source.fromMap(json["source"]),
-        author: json["author"],
-        title: json["title"],
-        description: json["description"],
-        url: json["url"],
-        urlToImage: json["urlToImage"],
-        publishedAt: DateTime.parse(json["publishedAt"]),
-        content: json["content"],
-      );
-
-  factory Article.fromMapDb(Map<String, dynamic> json) => Article(
-        source: Source(id: '', name: json["source"]),
-        author: json["author"],
-        title: json["title"],
-        description: json["description"],
-        url: json["url"],
-        urlToImage: json["urlToImage"],
-        publishedAt: DateTime.parse(json["publishedAt"]),
-        content: json["content"],
-      );
 
   Map<String, dynamic> toMap() => {
         "source": source != null ? source!.toMap() : [],
@@ -165,9 +165,16 @@ class Source {
     this.isSaved = false,
   });
 
+  factory Source.fromJson(String str) => Source.fromMap(json.decode(str));
+
+  factory Source.fromMap(Map<String, dynamic> json) => Source(
+        id: json["id"],
+        name: json["name"],
+      );
+
   final String? id;
-  final String? name;
   final bool isSaved;
+  final String? name;
 
   Source copyWith({
     String? id,
@@ -180,14 +187,7 @@ class Source {
         isSaved: isSaved ?? this.isSaved,
       );
 
-  factory Source.fromJson(String str) => Source.fromMap(json.decode(str));
-
   String toJson() => json.encode(toMap());
-
-  factory Source.fromMap(Map<String, dynamic> json) => Source(
-        id: json["id"],
-        name: json["name"],
-      );
 
   Map<String, dynamic> toMap() => {
         "id": id,

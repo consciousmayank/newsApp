@@ -9,14 +9,24 @@ class Sources {
     this.status,
     this.sources,
   });
+
   Sources.empty()
       : this(
           status: '',
           sources: [],
         );
 
-  final String? status;
+  factory Sources.fromJson(String str) => Sources.fromMap(json.decode(str));
+
+  factory Sources.fromMap(Map<String, dynamic> json) => Sources(
+        status: json["status"],
+        sources: json["sources"] != null
+            ? List<Source>.from(json["sources"].map((x) => Source.fromMap(x)))
+            : [],
+      );
+
   final List<Source>? sources;
+  final String? status;
 
   Sources copyWith({
     String? status,
@@ -27,16 +37,7 @@ class Sources {
         sources: sources ?? this.sources,
       );
 
-  factory Sources.fromJson(String str) => Sources.fromMap(json.decode(str));
-
   String toJson() => json.encode(toMap());
-
-  factory Sources.fromMap(Map<String, dynamic> json) => Sources(
-        status: json["status"],
-        sources: json["sources"] != null
-            ? List<Source>.from(json["sources"].map((x) => Source.fromMap(x)))
-            : [],
-      );
 
   Map<String, dynamic> toMap() => {
         "status": status,
@@ -70,14 +71,36 @@ class Source {
           isSaved: false,
         );
 
-  final String? id;
-  final String? name;
-  final String? description;
-  final String? url;
+  factory Source.fromJson(String str) => Source.fromMap(json.decode(str));
+
+  factory Source.fromMap(Map<String, dynamic> json) => Source(
+        id: json["id"],
+        name: json["name"],
+        description: json["description"],
+        url: json["url"],
+        category: json["category"],
+        language: json["language"],
+        country: json["country"],
+      );
+
+  factory Source.fromMapDB(Map<String, dynamic> json) => Source(
+        id: json["sourceId"],
+        name: json["name"],
+        description: json["description"],
+        url: json["url"],
+        category: json["category"],
+        language: json["language"],
+        country: json["country"],
+      );
+
   final String? category;
-  final String? language;
   final String? country;
+  final String? description;
+  final String? id;
   final bool isSaved;
+  final String? language;
+  final String? name;
+  final String? url;
 
   Source copyWith({
     String? id,
@@ -100,28 +123,7 @@ class Source {
         isSaved: isSaved ?? this.isSaved,
       );
 
-  factory Source.fromJson(String str) => Source.fromMap(json.decode(str));
-
   String toJson() => json.encode(toMap());
-
-  factory Source.fromMap(Map<String, dynamic> json) => Source(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
-        url: json["url"],
-        category: json["category"],
-        language: json["language"],
-        country: json["country"],
-      );
-  factory Source.fromMapDB(Map<String, dynamic> json) => Source(
-        id: json["sourceId"],
-        name: json["name"],
-        description: json["description"],
-        url: json["url"],
-        category: json["category"],
-        language: json["language"],
-        country: json["country"],
-      );
 
   Map<String, dynamic> toMap() => {
         "id": id,

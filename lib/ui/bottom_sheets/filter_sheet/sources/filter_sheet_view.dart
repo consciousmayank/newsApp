@@ -9,13 +9,14 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class FilterSheet extends StatelessWidget {
-  final Function(SheetResponse)? completer;
-  final SheetRequest request;
   const FilterSheet({
     Key? key,
     required this.completer,
     required this.request,
   }) : super(key: key);
+
+  final Function(SheetResponse)? completer;
+  final SheetRequest request;
 
   @override
   Widget build(BuildContext context) {

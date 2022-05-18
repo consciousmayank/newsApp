@@ -7,13 +7,15 @@ import 'package:stacked/stacked.dart';
 import 'package:news_app_mayank/data_classes/sources.dart' as complete_source;
 
 class SourceViewWidgetModel extends ReactiveViewModel with BaseViewModelMixin {
-  @override
-  List<ReactiveServiceMixin> get reactiveServices => [_materialThemeService];
-
   late complete_source.Source source;
+
   final DatabaseService _databaseService = locator<DatabaseService>();
   final MaterialThemeServiceService _materialThemeService =
       locator<MaterialThemeServiceService>();
+
+  @override
+  List<ReactiveServiceMixin> get reactiveServices => [_materialThemeService];
+
   Future<List<complete_source.Source>> getSourcesFromDb() async {
     return await _databaseService.getSavedSources();
   }

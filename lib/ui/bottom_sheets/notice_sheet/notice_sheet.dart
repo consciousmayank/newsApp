@@ -4,13 +4,14 @@ import 'package:news_app_mayank/ui/common/ui_helpers.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class NoticeSheet extends StatelessWidget {
-  final Function(SheetResponse)? completer;
-  final SheetRequest request;
   const NoticeSheet({
     Key? key,
     required this.completer,
     required this.request,
   }) : super(key: key);
+
+  final Function(SheetResponse)? completer;
+  final SheetRequest request;
 
   @override
   Widget build(BuildContext context) {

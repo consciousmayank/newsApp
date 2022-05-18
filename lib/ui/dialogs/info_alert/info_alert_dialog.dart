@@ -6,14 +6,14 @@ import 'package:stacked_services/stacked_services.dart';
 const double _graphicSize = 60;
 
 class InfoAlertDialog extends StatelessWidget {
-  final DialogRequest request;
-  final Function(DialogResponse) completer;
-
   const InfoAlertDialog({
     Key? key,
     required this.request,
     required this.completer,
   }) : super(key: key);
+
+  final Function(DialogResponse) completer;
+  final DialogRequest request;
 
   @override
   Widget build(BuildContext context) {

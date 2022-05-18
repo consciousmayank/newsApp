@@ -6,6 +6,7 @@ class AppWebViewModel extends BaseViewModel with BaseViewModelMixin {
   int _loadingPercentage = 0;
 
   int get loadingPercentage => _loadingPercentage;
+
   set loadingPercentage(int value) {
     _loadingPercentage = value;
     notifyListeners();

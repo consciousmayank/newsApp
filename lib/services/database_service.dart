@@ -7,9 +7,8 @@ const String savedNewsArticleTable = 'saved_news_article_table';
 const String savedSourcesTable = 'saved_sources_table';
 
 class DatabaseService {
-  static DatabaseService? _instance;
-
   static Database? _db;
+  static DatabaseService? _instance;
 
   static Future<DatabaseService> getInstance() async {
     _instance ??= DatabaseService();

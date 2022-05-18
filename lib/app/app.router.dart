@@ -17,29 +17,20 @@ import '../ui/views/news_list/news_list_view.dart';
 import '../ui/views/startup/startup_view.dart';
 
 class Routes {
-  static const String startupView = '/startup-view';
-  static const String dashBoardView = '/dash-board-view';
-  static const String appWebView = '/app-web-view';
-  static const String newsListView = '/news-list-view';
   static const all = <String>{
     startupView,
     dashBoardView,
     appWebView,
     newsListView,
   };
+
+  static const String appWebView = '/app-web-view';
+  static const String dashBoardView = '/dash-board-view';
+  static const String newsListView = '/news-list-view';
+  static const String startupView = '/startup-view';
 }
 
 class StackedRouter extends RouterBase {
-  @override
-  List<RouteDef> get routes => _routes;
-  final _routes = <RouteDef>[
-    RouteDef(Routes.startupView, page: StartupView),
-    RouteDef(Routes.dashBoardView, page: DashBoardView),
-    RouteDef(Routes.appWebView, page: AppWebView),
-    RouteDef(Routes.newsListView, page: NewsListView),
-  ];
-  @override
-  Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, StackedRouteFactory>{
     StartupView: (data) {
       return MaterialPageRoute<dynamic>(
@@ -75,6 +66,19 @@ class StackedRouter extends RouterBase {
       );
     },
   };
+
+  final _routes = <RouteDef>[
+    RouteDef(Routes.startupView, page: StartupView),
+    RouteDef(Routes.dashBoardView, page: DashBoardView),
+    RouteDef(Routes.appWebView, page: AppWebView),
+    RouteDef(Routes.newsListView, page: NewsListView),
+  ];
+
+  @override
+  Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
+
+  @override
+  List<RouteDef> get routes => _routes;
 }
 
 /// ************************************************************************
@@ -83,16 +87,18 @@ class StackedRouter extends RouterBase {
 
 /// AppWebView arguments holder class
 class AppWebViewArguments {
-  final Key? key;
-  final String urlToLoad;
-  final Source? source;
   AppWebViewArguments(
       {this.key, required this.urlToLoad, required this.source});
+
+  final Key? key;
+  final Source? source;
+  final String urlToLoad;
 }
 
 /// NewsListView arguments holder class
 class NewsListViewArguments {
+  NewsListViewArguments({this.key, required this.newsListType});
+
   final Key? key;
   final NewsListType newsListType;
-  NewsListViewArguments({this.key, required this.newsListType});
 }

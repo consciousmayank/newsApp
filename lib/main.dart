@@ -67,6 +67,7 @@ class MaterialAppWidgetModel extends ReactiveViewModel {
 
   final MaterialThemeServiceService _themeService =
       locator<MaterialThemeServiceService>();
+
   @override
   List<ReactiveServiceMixin> get reactiveServices => [
         _service,
@@ -74,6 +75,7 @@ class MaterialAppWidgetModel extends ReactiveViewModel {
       ];
 
   ThemeData getTheme() => _themeService.themeData;
+
   getColorOptions() => _themeService.colorOptions;
 
   cancelServiceSubscription() {
