@@ -50,5 +50,8 @@ User can click an icon in individual list that can help him to bookmark and save
 
 Use the following command to run the app in:-
 
-flutter run --dart-define BASE_URL=https://newsapi.org/v2 --dart-define SHOW_LOGS=true --dart-define API_KEY=<API_KEY_FROM_newsapi.org>
+flutter run --dart-define BASE_URL=https://newsapi.org/v2 --dart-define SHOW_LOGS=true --dart-define API_KEY=e34e3f77725e47a0a6dd51d83f46d984
+
+If e34e3f77725e47a0a6dd51d83f46d984 does not work. Then get a new from https://newsapi.org.
+
 
