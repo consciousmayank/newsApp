@@ -67,13 +67,17 @@ class _SearchInFilterListState extends State<SearchInFilterList> {
                   ),
                   onChanged: (bool? value) {
                     if (value != null) {
-                      if (value) {
-                        _selectedSearchIn
-                            .add(searchInOption.values.elementAt(index));
-                      } else {
-                        _selectedSearchIn
-                            .remove(searchInOption.values.elementAt(index));
-                      }
+                      setState(() {
+                        if (value &&
+                            !_selectedSearchIn.contains(
+                                searchInOption.values.elementAt(index))) {
+                          _selectedSearchIn
+                              .add(searchInOption.values.elementAt(index));
+                        } else {
+                          _selectedSearchIn
+                              .remove(searchInOption.values.elementAt(index));
+                        }
+                      });
                     }
                   },
                 );
